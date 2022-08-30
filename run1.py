@@ -1,6 +1,6 @@
 #基於黑線偏移量值開始尋機
 import RPi.GPIO as gpio
-#import time
+import time
 import cv2
 import numpy as np
 
@@ -17,6 +17,7 @@ gpio.setup(pin3, gpio.OUT)
 gpio.setup(pin4, gpio.OUT)
 
 center=320
+
 while(1):
     #call攝影機出來拍照
     vp= cv2.VideoCapture(0)
@@ -30,7 +31,7 @@ while(1):
     cv2.imwrite("BW.png",BW)
 
     # 单看第400行的像素值
-    color =BW[300] 
+    color =BW[400] 
     # 找到黑色的像素点个数
     white_count = np.sum(color == 0)
     # 找到黑色的像素点索引
