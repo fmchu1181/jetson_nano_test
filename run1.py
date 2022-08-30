@@ -47,7 +47,7 @@ while(1):
     # 计算出center与标准中心点的偏移量（圖片預設像素為480*640）X軸為640
     direction = center - 320
     print(direction)                            #偏移量值
-
+    vp.release()
     # 停止
     if abs(direction) > 250:
             gpio.output(pin1, False)
