@@ -1,6 +1,6 @@
 #基於黑線偏移量值開始尋機
 import RPi.GPIO as gpio
-#import time
+import time
 import cv2
 import numpy as np
 
@@ -29,7 +29,8 @@ try:
         #cv2.imread("1.png",img)
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         # 反二值化
-        ret,BW= cv2.threshold(img_gray, 180, 255, cv2.THRESH_BINARY_INV) 
+        #ret,BW= cv2.threshold(img_gray, 150, 255, cv2.THRESH_BINARY_INV) #黑底白線
+        ret, BW = cv2.threshold(img_gray, 50, 255, cv2.THRESH_BINARY) #白底黑線
         cv2.imwrite("BW.png",BW)
         cv2.imshow('out',BW)
         # 单看第400行的像素值

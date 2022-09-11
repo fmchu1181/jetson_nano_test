@@ -1,6 +1,7 @@
 #基於黑線偏移量值開始尋機
+from turtle import delay
 import Jetson.GPIO as gpio
-#import time
+import time
 import cv2
 import numpy as np
 
@@ -53,7 +54,8 @@ try:
         # 计算出center与标准中心点的偏移量（圖片預設像素為480*640）X軸為640
         direction = center - 320
         print(direction)                            #偏移量值
-
+        t=0.06
+        t1=0.1-t
         # 停止
         if abs(direction) > 250:
                 gpio.output(pin1, False)
@@ -70,6 +72,13 @@ try:
             gpio.output(pin2, True)
             gpio.output(pin3, False)
             gpio.output(pin4, False)
+            time.sleep(t)
+            gpio.output(pin1, False)
+            gpio.output(pin2, False)
+            gpio.output(pin3, False)
+            gpio.output(pin4, False)
+            time.sleep(t1)
+            
 
         # 左转
         elif direction < 0:
@@ -79,6 +88,12 @@ try:
             gpio.output(pin2, False)
             gpio.output(pin3, False)
             gpio.output(pin4, True)
+            time.sleep(t)
+            gpio.output(pin1, False)
+            gpio.output(pin2, False)
+            gpio.output(pin3, False)
+            gpio.output(pin4, False)
+            time.sleep(t1)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
