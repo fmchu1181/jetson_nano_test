@@ -54,7 +54,7 @@ while True:
     # 计算出center与标准中心点的偏移量（圖片預設像素為480*640）X軸為640
     direction = center - 320
     print(direction)
-    if white_count  > 500:
+    if white_count  > 250:
         break
 #停止
 gpio.output(pin1, False)

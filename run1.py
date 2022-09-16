@@ -1,6 +1,6 @@
 #基於黑線偏移量值開始尋機
-import Jetson.GPIO as gpio
-#import time
+import RPi.GPIO as gpio
+import time
 import cv2
 import numpy as np
 
@@ -61,26 +61,32 @@ try:
                 gpio.output(pin3, False)
                 gpio.output(pin4, False)
 
+        #直走
+        elif  -11<direction<11:
+            gpio.output(pin1, False)
+            gpio.output(pin2, True)
+            gpio.output(pin3, False)
+            gpio.output(pin4, True)
         # 右转
-        elif direction >= 0:
+        elif direction >12:
             # 限制在70以内
-            if direction > 70:
-                direction = 70
             gpio.output(pin1, False)
             gpio.output(pin2, True)
             gpio.output(pin3, False)
             gpio.output(pin4, False)
 
         # 左转
-        elif direction < 0:
-            if direction < -70:
-                direction = -70
+        elif direction <  -12:
             gpio.output(pin1, False)
             gpio.output(pin2, False)
             gpio.output(pin3, False)
             gpio.output(pin4, True)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
+            gpio.output(pin1, False)
+            gpio.output(pin2, False)
+            gpio.output(pin3, False)
+            gpio.output(pin4, False)
             break
     
 # 释放清理

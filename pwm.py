@@ -4,8 +4,8 @@ import time
 
 GPIO.setmode(GPIO.BOARD)
 
-pin1=35
-pin2=36
+pin1=32
+pin2=33
 pin3=37
 pin4=38
 t=0.05
