@@ -14,19 +14,32 @@ gpio.setup(pin2, gpio.OUT)
 
 
 # 设置PWM波,频率为500Hz
-pwm1 = gpio.PWM(pin1, 50)
-pwm2 = gpio.PWM(pin2, 50)
+pwm1 = gpio.PWM(pin1, 500)
+pwm2 = gpio.PWM(pin2, 500)
 
 
 # pwm波控制初始化
-pwm1.start(25)
-pwm2.start(25)
+pwm1.start(0)
+pwm2.start(0)
 
 pwm1.ChangeDutyCycle(0)
-pwm2.ChangeDutyCycle(100)
-
+pwm2.ChangeDutyCycle(20)
 time.sleep(2)
 
+pwm1.ChangeDutyCycle(0)
+pwm2.ChangeDutyCycle(40)
+time.sleep(2)
+
+pwm1.ChangeDutyCycle(0)
+pwm2.ChangeDutyCycle(60)
+time.sleep(2)
+
+pwm1.ChangeDutyCycle(0)
+pwm2.ChangeDutyCycle(80)
+time.sleep(2)
+pwm1.ChangeDutyCycle(0)
+pwm2.ChangeDutyCycle(100)
+time.sleep(2)
 pwm1.stop()
 pwm2.stop()
 

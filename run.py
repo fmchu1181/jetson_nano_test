@@ -7,14 +7,24 @@ import numpy as np
 # 定义引脚
 gpio.setmode(gpio.BOARD)
 pin1 = 35
-pin2 = 36
-pin3 = 37
-pin4 = 38
+pin2 = 32
+pin3 = 36
+pin4 = 33
 
 gpio.setup(pin1, gpio.OUT)
 gpio.setup(pin2, gpio.OUT)
 gpio.setup(pin3, gpio.OUT)
 gpio.setup(pin4, gpio.OUT)
+# 设置PWM波,频率为500Hz
+
+pwm2 = gpio.PWM(pin2, 500)
+pwm4 = gpio.PWM(pin4, 500)
+
+# pwm波控制初始化
+
+pwm2.start(0)
+pwm4.start(0)
+
 vp= cv2.VideoCapture(0)
 center=320
 try:
@@ -55,36 +65,36 @@ try:
         print(direction)                            #偏移量值
 
         # 停止
-        if abs(direction) > 250:
-                gpio.output(pin1, False)
-                gpio.output(pin2, False)
-                gpio.output(pin3, False)
-                gpio.output(pin4, False)
+        if abs(direction) > 300:
+            gpio.output(pin1, False)
+            pwm2.ChangeDutyCycle(0)
+            gpio.output(pin3, False)
+            pwm4.ChangeDutyCycle(0)
 
         # 右转
         elif direction >= 0:
             # 限制在70以内
-            if direction > 70:
-                direction = 70
+            if direction > 50:
+                direction = 50
             gpio.output(pin1, False)
-            gpio.output(pin2, True)
+            pwm2.ChangeDutyCycle(30 + direction)
             gpio.output(pin3, False)
-            gpio.output(pin4, False)
+            pwm4.ChangeDutyCycle(20)
 
         # 左转
         elif direction < 0:
-            if direction < -70:
-                direction = -70
+            if direction < -50:
+                direction = -50
             gpio.output(pin1, False)
-            gpio.output(pin2, False)
+            pwm2.ChangeDutyCycle(20)
             gpio.output(pin3, False)
-            gpio.output(pin4, True)
+            pwm4.ChangeDutyCycle(30 - direction)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             gpio.output(pin1, False)
-            gpio.output(pin2, False)
+            pwm2.ChangeDutyCycle(0)
             gpio.output(pin3, False)
-            gpio.output(pin4, False)
+            pwm4.ChangeDutyCycle(0)
             break
     
 # 释放清理

@@ -3,10 +3,10 @@ import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 
-pin1=32
-pin2=33
-pin3=37
-pin4=38
+pin1 = 35
+pin2 = 32
+pin3 = 36
+pin4 = 33
 
 GPIO.setup(pin1, GPIO.OUT)
 GPIO.setup(pin2, GPIO.OUT)
@@ -34,10 +34,10 @@ while True:
     if ch == 'd':
        GPIO.output(pin1, False)
        GPIO.output(pin2, True)
-       GPIO.output(pin3, True)
+       GPIO.output(pin3, False)
        GPIO.output(pin4, False)
     if ch == 'a':
-       GPIO.output(pin1, True)
+       GPIO.output(pin1, False)
        GPIO.output(pin2, False)
        GPIO.output(pin3, False)
        GPIO.output(pin4, True)

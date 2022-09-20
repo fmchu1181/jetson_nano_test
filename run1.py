@@ -7,14 +7,23 @@ import numpy as np
 # 定义引脚
 gpio.setmode(gpio.BOARD)
 pin1 = 35
-pin2 = 36
-pin3 = 37
-pin4 = 38
+pin2 = 32
+pin3 = 36
+pin4 = 33
 
 gpio.setup(pin1, gpio.OUT)
 gpio.setup(pin2, gpio.OUT)
 gpio.setup(pin3, gpio.OUT)
 gpio.setup(pin4, gpio.OUT)
+
+# 设置PWM波,频率为500Hz
+pwm2 = gpio.PWM(pin2, 500)
+pwm4 = gpio.PWM(pin4, 500)
+
+# pwm波控制初始化
+pwm2.start(0)
+pwm4.start(0)
+
 vp= cv2.VideoCapture(0)
 center=320
 try:
@@ -30,11 +39,11 @@ try:
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         # 反二值化
         #ret,BW= cv2.threshold(img_gray, 150, 255, cv2.THRESH_BINARY_INV) #黑底白線
-        ret, BW = cv2.threshold(img_gray, 50, 255, cv2.THRESH_BINARY) #白底黑線
+        ret, BW = cv2.threshold(img_gray, 100, 255, cv2.THRESH_BINARY) #白底黑線
         cv2.imwrite("BW.png",BW)
         cv2.imshow('out',BW)
         # 单看第400行的像素值
-        color =BW[400] 
+        color =BW[200] 
         # 找到黑色的像素点个数
         white_count = np.sum(color == 0)
         # 找到黑色的像素点索引
@@ -55,38 +64,56 @@ try:
         print(direction)                            #偏移量值
 
         # 停止
-        if abs(direction) > 250:
+        if abs(direction) > 300:
                 gpio.output(pin1, False)
-                gpio.output(pin2, False)
+                pwm2.ChangeDutyCycle(0)
                 gpio.output(pin3, False)
-                gpio.output(pin4, False)
+                pwm4.ChangeDutyCycle(0)
 
-        #直走
-        elif  -11<direction<11:
-            gpio.output(pin1, False)
-            gpio.output(pin2, True)
-            gpio.output(pin3, False)
-            gpio.output(pin4, True)
-        # 右转
-        elif direction >12:
+
+        # 小右轉
+        elif  100>direction >0:
             # 限制在70以内
+            if direction >50:
+                direction = 50
             gpio.output(pin1, False)
-            gpio.output(pin2, True)
+            pwm2.ChangeDutyCycle(20 + direction)
             gpio.output(pin3, False)
-            gpio.output(pin4, False)
+            pwm4.ChangeDutyCycle(20)
+        # 大右轉
+        elif  direction >100:
+            if direction >100:
+                direction = 50
+            gpio.output(pin1, False)
+            pwm2.ChangeDutyCycle(20 + direction)
+            gpio.output(pin3, False)
+            pwm4.ChangeDutyCycle(0)
 
-        # 左转
-        elif direction <  -12:
+        # 小左轉
+        elif  -100<direction <0:
+            # 限制在70以内
+            if direction <-50:
+                direction = -50
             gpio.output(pin1, False)
-            gpio.output(pin2, False)
+            pwm2.ChangeDutyCycle(20 )
             gpio.output(pin3, False)
-            gpio.output(pin4, True)
+            pwm4.ChangeDutyCycle(20- direction)
+        # 大左轉
+        elif  direction <-100:
+            # 限制在70以内
+            if direction <-100:
+                direction = -50
+            gpio.output(pin1, False)
+            pwm2.ChangeDutyCycle(0 )
+            gpio.output(pin3, False)
+            pwm4.ChangeDutyCycle(20- direction)
+
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             gpio.output(pin1, False)
-            gpio.output(pin2, False)
+            pwm2.ChangeDutyCycle(0)
             gpio.output(pin3, False)
-            gpio.output(pin4, False)
+            pwm4.ChangeDutyCycle(0)
             break
     
 # 释放清理
