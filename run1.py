@@ -43,7 +43,7 @@ try:
         cv2.imwrite("BW.png",BW)
         cv2.imshow('out',BW)
         # 单看第400行的像素值
-        color =BW[200] 
+        color =BW[400]
         # 找到黑色的像素点个数
         white_count = np.sum(color == 0)
         # 找到黑色的像素点索引
@@ -68,46 +68,27 @@ try:
                 gpio.output(pin1, False)
                 pwm2.ChangeDutyCycle(0)
                 gpio.output(pin3, False)
-                pwm4.ChangeDutyCycle(0)
-
+                pwm4.ChangeDutyCycle(70)
 
         # 小右轉
-        elif  100>direction >0:
+        elif  direction >0:
             # 限制在70以内
-            if direction >50:
-                direction = 50
+            if direction >40:
+                direction = 40
             gpio.output(pin1, False)
-            pwm2.ChangeDutyCycle(20 + direction)
-            gpio.output(pin3, False)
-            pwm4.ChangeDutyCycle(20)
-        # 大右轉
-        elif  direction >100:
-            if direction >100:
-                direction = 50
-            gpio.output(pin1, False)
-            pwm2.ChangeDutyCycle(20 + direction)
+            pwm2.ChangeDutyCycle(50 + direction)
             gpio.output(pin3, False)
             pwm4.ChangeDutyCycle(0)
 
         # 小左轉
-        elif  -100<direction <0:
+        elif  direction <0:
             # 限制在70以内
-            if direction <-50:
-                direction = -50
-            gpio.output(pin1, False)
-            pwm2.ChangeDutyCycle(20 )
-            gpio.output(pin3, False)
-            pwm4.ChangeDutyCycle(20- direction)
-        # 大左轉
-        elif  direction <-100:
-            # 限制在70以内
-            if direction <-100:
-                direction = -50
+            if direction <-40:
+                direction = -40
             gpio.output(pin1, False)
             pwm2.ChangeDutyCycle(0 )
             gpio.output(pin3, False)
-            pwm4.ChangeDutyCycle(20- direction)
-
+            pwm4.ChangeDutyCycle(50- direction)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             gpio.output(pin1, False)
