@@ -1,6 +1,6 @@
 #用滑鼠找位置
 import cv2
-img = cv2.imread('BW.png')
+img = cv2.imread('0.png')
 
 def show_xy(event,x,y,flags,userdata):
     print(event,x,y,flags)
