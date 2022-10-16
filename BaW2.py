@@ -13,12 +13,12 @@ ret, output3 = cv2.threshold(img_gray, 127, 255, cv2.THRESH_TRUNC)      # 如果
 ret, output4 = cv2.threshold(img_gray, 10, 255, cv2.THRESH_TOZERO)     # 如果大於 127 數值不變，反之數值等於 0。
 ret, output5 = cv2.threshold(img_gray, 127, 255, cv2.THRESH_TOZERO_INV) # 如果大於 127 等於 0，反之數值不變。
 
-#cv2.imshow('oxxostudio', img)
-cv2.imshow('oxxostudio1', output1)
-#cv2.imshow('oxxostudio2', output2)
-#cv2.imshow('oxxostudio3', output3)
-#cv2.imshow('oxxostudio4', output4)
-#cv2.imshow('oxxostudio5', output5)
+#cv2.imshow('0', img)
+cv2.imshow('1', output1)
+#cv2.imshow('2', output2)
+#cv2.imshow('3', output3)
+#cv2.imshow('4', output4)
+#cv2.imshow('5', output5)
 cv2.imwrite("0.png", output1)
 cv2.waitKey(0)    # 按下任意鍵停止
 cv2.destroyAllWindows()
